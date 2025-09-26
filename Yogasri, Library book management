@@ -1,0 +1,102 @@
+// Import the ‘readline’ module for input/output
+Const readline = require(“readline”);
+
+// In-memory “database” of books
+Let books = [
+  { id: 1, title: “The Great Gatsby”, author: “F. Scott Fitzgerald”, available: true },
+  { id: 2, title: “1984”, author: “George Orwell”, available: true },
+  { id: 3, title: “To Kill a Mockingbird”, author: “Harper Lee”, available: true },
+];
+
+// Functions for core features
+Function viewBooks() {
+  Console.log(“\n Library Books:”);
+  Books.forEach(b =>
+    Console.log(`${b.id}. ${b.title} by ${b.author} - ${b.available ? “Available ” : “Issued”}`) 
+  );
+}
+
+Function addBook(title, author) {
+  Const newBook = {
+    Id: books.length + 1,
+    Title,
+    Author,
+    Available: true,
+  };
+  Books.push(newBook);
+  Console.log(`\n Book “${title}” added successfully!`);
+}
+
+Function issueBook(id) {
+  Const book = books.find(b => b.id === id);
+  If (book && book.available) {
+    Book.available = false;
+    Console.log(`\n Book “${book.title}” has been issued.`);
+  } else {
+    Console.log(“\n Book not available or does not exist.”);
+  }
+}
+
+Function returnBook(id) {
+  Const book = books.find(b => b.id === id);
+  If (book && !book.available) {
+    Book.available = true;
+    Console.log(`\n Book “${book.title}” has been returned.`);
+  } else {
+    Console.log(“\n Invalid return operation.”);
+  }
+}
+
+// Command-line interface
+Const rl = readline.createInterface({
+  Input: process.stdin,
+  Output: process.stdout
+});
+
+Function menu() {
+  Console.log(“\n Library Management System ”);
+  Console.log(“1. View Books”);
+  Console.log(“2. Add Book”);
+  Console.log(“3. Issue Book”);
+  Console.log(“4. Return Book”);
+  Console.log(“5. Exit”);
+
+  Rl.question(“\nEnter your choice: “, choice => {
+    Switch (choice) {
+      Case “1”:
+        viewBooks();
+        menu();
+        break;
+      case “2”:
+        rl.question(“Enter book title: “, title => {
+          rl.question(“Enter author name: “, author => {
+            addBook(title, author);
+            menu();
+          });
+        });
+        Break;
+      Case “3”:
+        Rl.question(“Enter book ID to issue: “, id => {
+          issueBook(parseInt(id));
+          menu();
+        });
+        Break;
+      Case “4”:
+        Rl.question(“Enter book ID to return: “, id => {
+          returnBook(parseInt(id));
+          menu();
+        });
+        Break;
+      Case “5”:
+        Console.log(“\n Exiting Library Management System. Goodbye!”);
+        Rl.close();
+        Break;
+      Default:
+        Console.log(“\n Invalid choice. Try again.”);
+        Menu();
+    }
+  });
+}
+
+// Start program
+Menu();
