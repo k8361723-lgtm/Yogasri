@@ -1,0 +1,72 @@
+
+
+// Simple Library Book Management in Node.js
+
+const readline = require('readline');
+
+const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+// Array to store books
+let books = [];
+
+// Function to display menu
+function showMenu() {
+    console.log("\n--- Library Book Management ---");
+    console.log("1. Add Book");
+    console.log("2. View Books");
+    console.log("3. Delete Book");
+    console.log("4. Exit");
+    rl.question("Choose an option: ", handleMenu);
+}
+
+// Function to handle menu options
+function handleMenu(option) {
+    switch(option) {
+        case '1':
+            rl.question("Enter book name: ", (name) => {
+                rl.question("Enter author name: ", (author) => {
+                    books.push({ name, author });
+                    console.log(`Book "${name}" by ${author} added!`);
+                    showMenu();
+                });
+            });
+            break;
+        case '2':
+            console.log("\n--- List of Books ---");
+            if(books.length === 0) {
+                console.log("No books available.");
+            } else {
+                books.forEach((book, index) => {
+                    console.log(`${index + 1}. ${book.name} by ${book.author}`);
+                });
+            }
+            showMenu();
+            break;
+        case '3':
+            rl.question("Enter book number to delete: ", (num) => {
+                num = parseInt(num);
+                if(num > 0 && num <= books.length) {
+                    const removed = books.splice(num - 1, 1);
+                    console.log(`Book "${removed[0].name}" removed.`);
+                } else {
+                    console.log("Invalid book number.");
+                }
+                showMenu();
+            });
+            break;
+        case '4':
+            console.log("Exiting...");
+            rl.close();
+            break;
+        default:
+            console.log("Invalid option. Try again.");
+            showMenu();
+    }
+}
+
+// Start the program
+showMenu();
+
